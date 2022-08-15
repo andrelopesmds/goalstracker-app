@@ -6,14 +6,15 @@ on:
       - main
   workflow_dispatch:
 
+
 jobs:
   test-scan-branch:
     name: Test Scan Branch
     runs-on: ubuntu-latest
 
     steps:
-      - name: TODO (Test Scan)
-        run: echo 'Hello world'
+    - name: TODO (Test Scan)
+      run: echo 'Hello world'
 
 
   trigger-deploy-dev:
@@ -22,7 +23,7 @@ jobs:
     needs: test-scan-branch
 
     steps:
-      name: Trigger Action
+    - name: Trigger Action
       uses: octokit/request-action@v2.x
       with:
         route: POST /repos/${{ github.repository }}/actions/workflows/{workflow_id}/dispatches
@@ -30,3 +31,5 @@ jobs:
         ref: ${{ github.ref }}
         inputs: |
           environment: 'dev'
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
