@@ -34,3 +34,5 @@ jobs:
         ref: ${{ github.ref }}
         inputs: |
           environment: 'prod'
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
