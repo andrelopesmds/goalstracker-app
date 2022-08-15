@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: TODO (Deploy)
-        run: echo 'Hello world'
+    - name: TODO (Deploy)
+      run: echo 'Hello world'
 
 
   trigger-next-deployment:
@@ -26,7 +26,7 @@ jobs:
     if: ${{ github.event.inputs.environment }} == 'stage'
     
     steps:
-      name: Trigger Action
+    - name: Trigger Action
       uses: octokit/request-action@v2.x
       with:
         route: POST /repos/${{ github.repository }}/actions/workflows/{workflow_id}/dispatches
