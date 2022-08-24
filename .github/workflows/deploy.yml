@@ -12,3 +12,5 @@ on:
 jobs:
   deploy:
     uses: andrelopesmds/reusable-workflows/.github/workflows/cdk-deploy.yml@main
+    with:
+      environment: ${{ inputs.environment }}
