@@ -11,5 +11,3 @@ on:
 jobs:
   test-branch:
     uses: andrelopesmds/reusable-workflows/.github/workflows/test.yml@main
-  #  secrets: inherit
-  
