@@ -1,0 +1,15 @@
+name: 'Test Branch'
+
+
+on:
+  push:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+
+jobs:
+  test-branch:
+    uses: andrelopesmds/reusable-workflows/.github/workflows/test.yml@main
+  #  secrets: inherit
+  
