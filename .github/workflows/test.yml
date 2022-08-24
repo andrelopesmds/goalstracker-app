@@ -1,10 +1,8 @@
-name: 'Test Branch'
+name: 'Test'
 
 
 on:
   push:
-    branches-ignore:
-      - main
   workflow_dispatch:
 
 
