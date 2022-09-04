@@ -10,8 +10,35 @@ on:
         default: dev
 
 jobs:
-  deploy:
-    uses: andrelopesmds/reusable-workflows/.github/workflows/aws-cdk-deploy.yml@main
-    with:
-      environment: ${{ inputs.environment }}
-    secrets: inherit
+  deploy-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build frontend
+        run: cd frontend && yarn && REACT_APP_ENV=${{ github.event.inputs.environment }} yarn build
+
+      - name: Run Unit tests
+        run: yarn test
+
+      - name: Deploy dev
+        run: yarn deploy
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
