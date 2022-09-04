@@ -1,7 +1,6 @@
 {
   "name": "goalstracker-app",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "git@github.com:andrelopesmds/goalstracker-app.git",
   "author": "andrelopesmds <andrelopesmds@gmail.com>",
   "license": "MIT",
