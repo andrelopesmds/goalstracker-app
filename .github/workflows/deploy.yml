@@ -10,8 +10,9 @@ on:
         default: dev
 
 jobs:
-  deploy-dev:
+  deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -37,7 +38,7 @@ jobs:
       - name: Run Unit tests
         run: yarn test
 
-      - name: Deploy dev
+      - name: Deploy ${{ github.event.inputs.environment }}
         run: yarn deploy
         env:
           ENVIRONMENT: ${{ github.event.inputs.environment }}
