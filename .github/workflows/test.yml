@@ -33,4 +33,3 @@ jobs:
 
       - name: Run Unit tests
         run: yarn test
-V
