@@ -1,7 +1,7 @@
 enum SubscriptionStatus {
-  NotSubscribed = 'User is not subscribed',
-  InProgress = 'Subscription is progress',
-  Subscribed = 'Subscription is done'
+  NOT_SUBSCRIBED = 'User is not subscribed',
+  IN_PROGRESS = 'Subscription is progress',
+  SUBSCRIBED = 'Subscription is done'
 }
 
 export default SubscriptionStatus;

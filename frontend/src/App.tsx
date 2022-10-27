@@ -1,68 +1,54 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import './App.css';
-import Section from './enums/section';
-import SubscriptionStatus from './enums/subscriptionStatus';
-import { AvailableTeam } from './interfaces/availableTeam';
-import Menu from './menu';
-import Feedback from './sections/feedback';
-import Help from './sections/help';
-import Home from './sections/home';
-import Statistics from './sections/statistics';
-import { fetchAvailableTeams, getApplicationServerKey, saveSubscription, sortBySport } from './utils/helper';
+import Section from "./enums/section";
+import SubscriptionStatus from "./enums/subscriptionStatus";
+import { AvailableTeam } from "./interfaces/availableTeam";
+import Menu from "./menu";
+import Home from "./sections/home";
+import Statistics from "./sections/statistics";
+import Help from "./sections/help";
+import Feedback from "./sections/feedback";
+import { getApplicationServerKey, sortBySport } from "./utils/helper";
+import { saveSubscription } from "./api/subscriptions";
+import { fetchAvailableTeams } from "./api/teams";
 
-interface AppProps { }
+function App() {
+  const [section, setSection] = React.useState(Section.Home)
+  const [subscriptionStatus, setSubscriptionStatus] = React.useState(SubscriptionStatus.NOT_SUBSCRIBED)
+  const [availableTeams, setAvailableTeams] = React.useState<AvailableTeam[]>([])
 
-interface AppStates {
-  subscriptionStatus: SubscriptionStatus,
-  availableTeams: AvailableTeam[],
-  section: Section,
-}
-
-class App extends React.Component<AppProps, AppStates> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      subscriptionStatus: SubscriptionStatus.NotSubscribed,
-      availableTeams: [],
-      section: Section.Home,
-    };
-
-    this.register = this.register.bind(this);
-    this.controlSection = this.controlSection.bind(this);
-  }
-
-  componentDidMount() {
-    this.updatesubscriptionStatus();
+  useEffect(() => {
+    updatesubscriptionStatus();
 
     fetchAvailableTeams()
       .then((data) => {
         const teams: AvailableTeam[] = data.teams;
         teams.sort(sortBySport); // this is needed so that 'groupBy' method of Autocomplete (Material-UI) works without duplications. 
 
-        this.setState({ availableTeams: teams });
+        setAvailableTeams(teams)
       });
-  }
+  }, [])
 
-  updatesubscriptionStatus() {
+  function updatesubscriptionStatus() {
     if (!('Notification' in window)) {
       alert('Sorry! We unfortunately don\'t have support for your OS/browser. Please come back later on!');
       return;
     }
 
     if (Notification.permission === 'granted') {
-      this.setState({ subscriptionStatus: SubscriptionStatus.Subscribed });
+      setSubscriptionStatus(SubscriptionStatus.SUBSCRIBED);
     } else {
-      this.setState({ subscriptionStatus: SubscriptionStatus.NotSubscribed })
+      setSubscriptionStatus(SubscriptionStatus.NOT_SUBSCRIBED)
     }
   }
+  function register(teamsIds: number[]) {
+    updatesubscriptionStatus()
 
-  register(teamsIds: number[]) {
-    this.updatesubscriptionStatus();
-    this.setState({ subscriptionStatus: SubscriptionStatus.InProgress });
+    setSubscriptionStatus(SubscriptionStatus.IN_PROGRESS)
 
     if (!('serviceWorker' in navigator)) {
       alert('Your browser does not support service workers.');
-      this.setState({ subscriptionStatus: SubscriptionStatus.NotSubscribed })
+      setSubscriptionStatus(SubscriptionStatus.NOT_SUBSCRIBED)
       return;
     }
 
@@ -81,48 +67,41 @@ class App extends React.Component<AppProps, AppStates> {
         return saveSubscription(pushSubscription, teamsIds);
       })
       .then(() => {
-        this.setState({ subscriptionStatus: SubscriptionStatus.Subscribed });
+        setSubscriptionStatus(SubscriptionStatus.SUBSCRIBED)
       })
       .catch(() => {
         alert('Error during your registration');
-        this.setState({ subscriptionStatus: SubscriptionStatus.NotSubscribed });
+        setSubscriptionStatus(SubscriptionStatus.NOT_SUBSCRIBED)
       });
   }
 
-  controlSection(section: Section) {
-    this.setState({ section: section });
+  let page;
+  if (section === Section.Home) {
+    page = <div>
+      <Home
+        onClick={register}
+        subscriptionStatus={subscriptionStatus}
+        availableTeams={availableTeams}
+      ></Home>
+    </div>;
+  } else if (section === Section.Statistics) {
+    page = <Statistics></Statistics>;
+  } else if (section === Section.Help) {
+    page = <Help></Help>;
+  } else if (section === Section.Feedback) {
+    page = <Feedback></Feedback>;
   }
 
-  render() {
-    let page;
-    if (this.state.section === Section.Home) {
-      page = <div>
-        <Home
-          onClick={this.register}
-          subscriptionStatus={this.state.subscriptionStatus}
-          availableTeams={this.state.availableTeams}
-        ></Home>
-      </div>;
-    } else if (this.state.section === Section.Statistics) {
-      page = <Statistics></Statistics>;
-    } else if (this.state.section === Section.Help) {
-      page = <Help></Help>;
-    } else if (this.state.section === Section.Feedback) {
-      page = <Feedback></Feedback>;
-    }
-
-    return (
-      <div className="App">
-        <div className="Page">
-          {page}
-        </div>
-        <div className="Menu">
-          <Menu section={this.state.section} onClick={this.controlSection}></Menu>
-        </div>
+  return (
+    <div className="App">
+      <div className="Page">
+        {page}
       </div>
-    );
-  }
-}
+      <div className="Menu">
+        <Menu section={section} onClick={(section: Section) => setSection(section)}></Menu>
+      </div>
+    </div>
+  );
+};
 
 export default App;
-
