@@ -43,9 +43,9 @@ class Home extends React.Component<HomeProps, HomeStates> {
 
         return (
             <div className="Buttons">
-              { subscriptionStatus === SubscriptionStatus.NotSubscribed && clickableButton }
-              { subscriptionStatus === SubscriptionStatus.InProgress && <CircularProgress/> }
-              { subscriptionStatus === SubscriptionStatus.Subscribed && messageButton }
+              { subscriptionStatus === SubscriptionStatus.NOT_SUBSCRIBED && clickableButton }
+              { subscriptionStatus === SubscriptionStatus.IN_PROGRESS && <CircularProgress/> }
+              { subscriptionStatus === SubscriptionStatus.SUBSCRIBED && messageButton }
             </div>
         );
     }
