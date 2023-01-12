@@ -1,21 +1,26 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Goalstracker",
+  "name": "Goalstracker",
   "icons": [
     {
-      "src": "ball.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "ball-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      "src": "ball.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "ball-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
     },
     {
-      "src": "ball.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "ball-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "ball-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
