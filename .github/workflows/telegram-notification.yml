@@ -1,0 +1,13 @@
+name: Telegram notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send-telegram-notification:
+    uses: andrelopesmds/reusable-workflows/.github/workflows/telegram-notification.yml@main
+    with:
+      message: 'goalstracker-app merged to main'
+    secrets: inherit
