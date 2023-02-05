@@ -1,8 +1,8 @@
 enum Section {
-  Home = 0,
-  Statistics = 1,
-  Help = 2,
-  Feedback = 3
+  Home = 'Home',
+  Statistics = 'Statistics',
+  Help = 'Help',
+  Feedback = 'Feedback'
 }
 
 export default Section;

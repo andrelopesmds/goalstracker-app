@@ -5,7 +5,7 @@ import Section from './enums/section';
 
 interface MenuProps {
   onClick: Function,
-  section: Number,
+  section: Section,
 };
 
 const Menu = (props: MenuProps) => {
@@ -16,10 +16,10 @@ const Menu = (props: MenuProps) => {
     }}
     showLabels
   >
-    <BottomNavigationAction label="Home" icon={<Home />} />
-    <BottomNavigationAction label="Statistics" icon={<BarChart />} />
-    <BottomNavigationAction label="Help" icon={<Help />} />
-    <BottomNavigationAction label="Feedback" icon={<Feedback />} />
+    <BottomNavigationAction value={Section.Home} label="Home" icon={<Home />} />
+    <BottomNavigationAction value={Section.Statistics} label="Statistics" icon={<BarChart />} />
+    <BottomNavigationAction value={Section.Feedback} label="Feedback" icon={<Feedback />} />
+    <BottomNavigationAction value={Section.Help} label="Help" icon={<Help />} />
   </BottomNavigation>
 }
 
