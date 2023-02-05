@@ -27,7 +27,7 @@ class Home extends React.Component<HomeProps, HomeStates> {
     }
 
     render () {
-        const clickableButtonText = 'Click here and track your team!';
+        const clickableButtonText = 'Subscribe!';
         const messageButtonText = 'Registration completed!';
         const buttonProperties: ButtonProps = {
             variant: 'contained',
